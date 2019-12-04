@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "server": "nodemon index.js"
+    "server": "nodemon ./portfolio-backend/index.js"
   },
   "repository": "..",
   "author": "mitchellr92@live.com",
