@@ -3,9 +3,9 @@ const cors = require("cors");
 const morgan = require("morgan");
 const knex = require("knex");
 const dbConfig = require("./knexfile.js");
-const db = require(dbConfig.development);
+const db = knex(dbConfig.development);
 
-const sevrer = express();
+const server = express();
 
 server.use(express.json());
 server.use(cors());
@@ -13,7 +13,7 @@ server.use(morgan());
 
 const PORT = 1234;
 
-server.port("/api/message", (req, res) => {
+server.post("/api/message", (req, res) => {
   const newMessage = req.body;
 
   if (newMessage.name && newMessage.email && newMessage.message) {
@@ -30,6 +30,16 @@ server.port("/api/message", (req, res) => {
   }
 });
 
-server, listen(PORT, () => {
-  console.log(`Listening on port ${PORT}`)
-})
+server.get("/api/message", (req, res) => {
+  db("message")
+    .then(messages => {
+      res.status(200).json(messages);
+    })
+    .catch(err => {
+      res.status(500).json({ message: "Failed to get messages" });
+    });
+});
+
+server.listen(PORT, () => {
+  console.log(`Listening on port ${PORT}`);
+});
