@@ -11,7 +11,7 @@ server.use(express.json());
 server.use(cors());
 server.use(morgan());
 
-const PORT = 1234;
+const PORT = process.env.PORT || 1234;
 
 server.post("/api/message", (req, res) => {
   const newMessage = req.body;
